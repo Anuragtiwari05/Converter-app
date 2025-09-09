@@ -1,7 +1,5 @@
-'use client'
-
 import React, { useState } from "react";
-import Navbar from "../component/navbar";
+import Navbar from "@/app/component/navbar";
 
 const rates: Record<string, number> = {
   USD: 1,
