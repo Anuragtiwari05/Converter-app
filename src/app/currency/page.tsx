@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Navbar from "../component/navbar";
 
 const rates: Record<string, number> = {
@@ -11,10 +11,15 @@ const rates: Record<string, number> = {
 };
 
 export default function Currency() {
+  const [rates,setRates] = useState({})
   const [fromCurrency, setFromCurrency] = useState(" ");
   const [toCurrency, setToCurrency] = useState(" ");
   const [amount, setAmount] = useState(" ");
   const [result, setResult] = useState(" ");
+
+  const API_KEY = "447f52773979a27d535033b1";
+  const BASE_URL = `https://v6.exchangerate-api.com/v6/${API_KEY}/latest/${fromCurrency}`;
+
 
   const handleCalculate = () => {
     if (!fromCurrency || !toCurrency) {
@@ -32,71 +37,81 @@ export default function Currency() {
   };
 
   return (
-    <div>
-      <div className="min-h-screen flex flex-col">
+    <div className="flex flex-col min-h-screen bg-gradient-to-br from-[#1a1f3c] via-[#141824] to-[#0d0f17] text-white">
+      {/* Navbar */}
+      <header className="sticky top-0 z-50 bg-black/20 backdrop-blur-lg border-b border-white/10">
         <Navbar />
-        <div className="lex-grow flex items-center justify-center p-6">
-          <div className="bg-white shadow-md rounded-lg p-6 w-full max-w-md">
-            <h2 className="text-2xl font-semibold mb-4 text-center">
-              Currency Converter
-            </h2>
+      </header>
 
-            <div className="mb-4">
-              <label className="block mb-1">From</label>
-              <select
-                value={fromCurrency}
-                onChange={(e) => setFromCurrency(e.target.value)}
-                className="w-full border rounded px-3 py-2"
-              >
-                <option value=" ">Select currency</option>
-                {Object.keys(rates).map((cur) => (
-                  <option key={cur} value={cur}>
-                    {cur}
-                  </option>
-                ))}
-              </select>
-            </div>
+      {/* Main Content */}
+      <main className="flex-grow flex flex-col items-center justify-center px-6 py-20">
+        <div className="bg-black/40 backdrop-blur-md rounded-xl shadow-xl p-8 w-full max-w-md">
+          <h2 className="text-3xl md:text-4xl font-extrabold mb-6 bg-gradient-to-r from-[#6a85f1] to-[#b690f1] text-transparent bg-clip-text text-center">
+            Currency Converter
+          </h2>
 
-            <div className="mb-4">
-              <label className="block mb-1">To</label>
-              <select
-                value={toCurrency}
-                onChange={(e) => setToCurrency(e.target.value)}
-                className="w-full border rounded px-3 py-2"
-              >
-                <option value=" ">Select currency</option>
-                {Object.keys(rates).map((cur) => (
-                  <option key={cur} value={cur}>
-                    {cur}
-                  </option>
-                ))}
-              </select>
-            </div>
+          {/* From Currency */}
+          <div className="mb-4">
+            <label className="block mb-1 font-medium">From</label>
+            <select
+              value={fromCurrency}
+              onChange={(e) => setFromCurrency(e.target.value)}
+              className="w-full border border-gray-700 rounded-lg px-4 py-2 bg-transparent text-white focus:outline-none focus:ring-2 focus:ring-[#6a85f1] transition"
+            >
+              <option value=" ">Select currency</option>
+              {Object.keys(rates).map((cur) => (
+                <option key={cur} value={cur}>
+                  {cur}
+                </option>
+              ))}
+            </select>
+          </div>
 
-            <div className="mb-4">
-                <label className="block mb-1">Amount</label>
-                <input
-                type="number"
-                value={amount}
-                onChange={(e)=> setAmount(e.target.value)}
-                className="w-full border rounded px-3 py-2"
-                />
-            </div>
+          {/* To Currency */}
+          <div className="mb-4">
+            <label className="block mb-1 font-medium">To</label>
+            <select
+              value={toCurrency}
+              onChange={(e) => setToCurrency(e.target.value)}
+              className="w-full border border-gray-700 rounded-lg px-4 py-2 bg-transparent text-white focus:outline-none focus:ring-2 focus:ring-[#b690f1] transition"
+            >
+              <option value=" ">Select currency</option>
+              {Object.keys(rates).map((cur) => (
+                <option key={cur} value={cur}>
+                  {cur}
+                </option>
+              ))}
+            </select>
+          </div>
 
-            <button onClick={handleCalculate} className="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600 transition">
-                Calculate
-                
-            </button>
+          {/* Amount */}
+          <div className="mb-6">
+            <label className="block mb-1 font-medium">Amount</label>
+            <input
+              type="number"
+              value={amount}
+              onChange={(e) => setAmount(e.target.value)}
+              className="w-full border border-gray-700 rounded-lg px-4 py-2 bg-transparent text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#8f9bb3] transition"
+              placeholder="Enter amount"
+            />
+          </div>
 
-            {result && (
-            <div className="mt-4 p-3 bg-gray-100 rounded text-center">
+          {/* Calculate Button */}
+          <button
+            onClick={handleCalculate}
+            className="w-full py-3 rounded-xl font-semibold bg-gradient-to-r from-[#6a85f1] to-[#b690f1] shadow-lg hover:scale-105 hover:shadow-[#6a85f1]/50 transition-transform duration-300"
+          >
+            Calculate
+          </button>
+
+          {/* Result */}
+          {result && (
+            <div className="mt-6 p-4 bg-gray-800 rounded-lg text-center text-lg font-medium text-[#b690f1] animate-pulse">
               Converted Amount: <strong>{result} {toCurrency}</strong>
             </div>
           )}
-
-          </div>
         </div>
-      </div>
+      </main>
     </div>
   );
 }
