@@ -6,7 +6,9 @@ function Navbar() {
     { name: 'home', href: '/' },
     { name: 'currency', href: '/currency' },
     { name: 'weight', href: '/weight' },
-    { name: 'age', href: '/age' }
+    { name: 'age', href: '/age' },
+    { name: 'temperature', href: '/temperature' },
+    { name: 'distance', href: '/distance' }
   ];
 
   return (
