@@ -1,25 +1,41 @@
-'use client'
+"use client";
 
 import React, { useEffect, useState } from "react";
 import Navbar from "../component/navbar";
 
-const rates: Record<string, number> = {
-  USD: 1,
-  INR: 83,
-  EUR: 0.83,
-  GBP: 0.72,
-};
-
 export default function Currency() {
-  const [rates,setRates] = useState({})
-  const [fromCurrency, setFromCurrency] = useState(" ");
-  const [toCurrency, setToCurrency] = useState(" ");
-  const [amount, setAmount] = useState(" ");
-  const [result, setResult] = useState(" ");
+  const [rates, setRates] = useState<Record<string, number>>({});
+  const [fromCurrency, setFromCurrency] = useState("USD"); // default USD
+  const [toCurrency, setToCurrency] = useState("INR");
+  const [amount, setAmount] = useState("");
+  const [result, setResult] = useState("");
 
   const API_KEY = "447f52773979a27d535033b1";
-  const BASE_URL = `https://v6.exchangerate-api.com/v6/${API_KEY}/latest/${fromCurrency}`;
 
+  // ✅ useEffect should be here, not inside handleCalculate
+  useEffect(() => {
+    if (!fromCurrency) return;
+
+    const fetchRates = async () => {
+      try {
+        const res = await fetch(
+          `https://v6.exchangerate-api.com/v6/${API_KEY}/latest/${fromCurrency}`
+        );
+        const data = await res.json();
+
+        if (data && data.conversion_rates) {
+          setRates(data.conversion_rates);
+        } else {
+          alert("Failed to fetch rates");
+        }
+      } catch (error) {
+        console.error("Error fetching rates:", error);
+        alert("Error fetching rates, please try again later.");
+      }
+    };
+
+    fetchRates();
+  }, [fromCurrency]);
 
   const handleCalculate = () => {
     if (!fromCurrency || !toCurrency) {
@@ -28,11 +44,16 @@ export default function Currency() {
     }
 
     if (!amount || isNaN(Number(amount))) {
-      alert("enter a valid number");
+      alert("Enter a valid number");
+      return;
     }
 
-    const converted =
-      (parseFloat(amount) * rates[toCurrency]) / rates[fromCurrency];
+    if (!rates[toCurrency]) {
+      alert("Conversion rate not available");
+      return;
+    }
+
+    const converted = parseFloat(amount) * rates[toCurrency];
     setResult(converted.toFixed(2));
   };
 
@@ -53,35 +74,40 @@ export default function Currency() {
           {/* From Currency */}
           <div className="mb-4">
             <label className="block mb-1 font-medium">From</label>
-            <select
-              value={fromCurrency}
-              onChange={(e) => setFromCurrency(e.target.value)}
-              className="w-full border border-gray-700 rounded-lg px-4 py-2 bg-transparent text-white focus:outline-none focus:ring-2 focus:ring-[#6a85f1] transition"
-            >
-              <option value=" ">Select currency</option>
-              {Object.keys(rates).map((cur) => (
-                <option key={cur} value={cur}>
-                  {cur}
-                </option>
-              ))}
-            </select>
+           <select
+  value={fromCurrency}
+  onChange={(e) => setFromCurrency(e.target.value)}
+  className="w-full border border-gray-700 rounded-lg px-4 py-2 
+             bg-gray-900 text-white focus:outline-none 
+             focus:ring-2 focus:ring-[#6a85f1] transition"
+>
+  <option value="">Select currency</option>
+  {Object.keys(rates).map((cur) => (
+    <option key={cur} value={cur} className="bg-gray-900 text-white">
+      {cur}
+    </option>
+  ))}
+</select>
+
           </div>
 
           {/* To Currency */}
           <div className="mb-4">
             <label className="block mb-1 font-medium">To</label>
             <select
-              value={toCurrency}
-              onChange={(e) => setToCurrency(e.target.value)}
-              className="w-full border border-gray-700 rounded-lg px-4 py-2 bg-transparent text-white focus:outline-none focus:ring-2 focus:ring-[#b690f1] transition"
-            >
-              <option value=" ">Select currency</option>
-              {Object.keys(rates).map((cur) => (
-                <option key={cur} value={cur}>
-                  {cur}
-                </option>
-              ))}
-            </select>
+    value={toCurrency}
+    onChange={(e) => setToCurrency(e.target.value)}
+    className="w-full border border-gray-700 rounded-lg px-4 py-2 
+               bg-gray-900 text-white focus:outline-none 
+               focus:ring-2 focus:ring-[#b690f1] transition"
+  >
+    <option value="">Select currency</option>
+    {Object.keys(rates).map((cur) => (
+      <option key={cur} value={cur} className="bg-gray-900 text-white">
+        {cur}
+      </option>
+    ))}
+  </select>
           </div>
 
           {/* Amount */}
@@ -107,7 +133,10 @@ export default function Currency() {
           {/* Result */}
           {result && (
             <div className="mt-6 p-4 bg-gray-800 rounded-lg text-center text-lg font-medium text-[#b690f1] animate-pulse">
-              Converted Amount: <strong>{result} {toCurrency}</strong>
+              Converted Amount:{" "}
+              <strong>
+                {result} {toCurrency}
+              </strong>
             </div>
           )}
         </div>
