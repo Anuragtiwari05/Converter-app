@@ -1,13 +1,16 @@
 "use client";
 
 import React, { useState } from "react";
-
+import { useRouter } from "next/navigation";
+import { useAuth } from "../../context/AuthContext";
 
 export default function Signup() {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const router = useRouter();
+  const { login } = useAuth(); // ← Login from context
 
   const handleSignup = async () => {
     if (!username || !email || !password) {
@@ -21,6 +24,7 @@ export default function Signup() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ username, email, password }),
+        credentials: "include", // ensure cookies are sent
       });
 
       const data = await res.json();
@@ -29,9 +33,8 @@ export default function Signup() {
         return;
       }
 
-      alert("Signup successful ✅");
-      // redirect after signup
-      window.location.href = "/";
+      login(); // update auth state
+      router.push("/"); // redirect to home
     } catch (err) {
       console.error(err);
       alert("Something went wrong");
@@ -42,9 +45,6 @@ export default function Signup() {
 
   return (
     <div className="flex flex-col min-h-screen bg-gradient-to-br from-[#1a1f3c] via-[#141824] to-[#0d0f17] text-white">
-      
-
-      {/* Main Content */}
       <main className="flex-grow flex flex-col items-center justify-center px-6 py-20">
         <div className="bg-black/40 backdrop-blur-md rounded-xl shadow-xl p-8 w-full max-w-md">
           <h2 className="text-3xl md:text-4xl font-extrabold mb-6 bg-gradient-to-r from-[#6a85f1] to-[#b690f1] text-transparent bg-clip-text text-center">
@@ -96,11 +96,11 @@ export default function Signup() {
             {loading ? "Signing up..." : "Sign Up"}
           </button>
 
-          {/* Redirect to login */}
+          {/* Sign-in Link */}
           <p className="mt-6 text-center text-gray-400 text-sm">
             Already have an account?{" "}
             <a
-              href="/signin"
+              href="/auth/signin"
               className="text-[#b690f1] hover:underline font-medium"
             >
               Sign in

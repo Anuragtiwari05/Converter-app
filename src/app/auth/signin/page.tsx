@@ -1,24 +1,30 @@
 "use client";
 
 import React, { useState } from "react";
+import { useRouter } from "next/navigation";
+import { useAuth } from "../../context/AuthContext";
 
 export default function Signin() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(false);
+  const router = useRouter();
+  const { login } = useAuth();
 
   const handleSignin = async () => {
     if (!email || !password) {
-      alert("All fields are required");
+      alert("Both fields are required");
       return;
     }
 
     setLoading(true);
+
     try {
       const res = await fetch("/api/auth/signin", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
+        credentials: "include", // send cookies
       });
 
       const data = await res.json();
@@ -28,9 +34,8 @@ export default function Signin() {
         return;
       }
 
-      alert("Signin successful ✅");
-      // redirect to homepage
-      window.location.href = "/";
+      login(); // update auth context
+      router.push("/"); // redirect to homepage
     } catch (err) {
       console.error(err);
       alert("Something went wrong");
@@ -47,31 +52,28 @@ export default function Signin() {
             Sign In
           </h2>
 
-          {/* Email */}
           <div className="mb-4">
             <label className="block mb-1 font-medium">Email</label>
             <input
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full border border-gray-700 rounded-lg px-4 py-2 bg-gray-900 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#6a85f1] transition"
               placeholder="Enter your email"
+              className="w-full border border-gray-700 rounded-lg px-4 py-2 bg-gray-900 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#6a85f1] transition"
             />
           </div>
 
-          {/* Password */}
           <div className="mb-6">
             <label className="block mb-1 font-medium">Password</label>
             <input
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full border border-gray-700 rounded-lg px-4 py-2 bg-gray-900 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#b690f1] transition"
               placeholder="Enter your password"
+              className="w-full border border-gray-700 rounded-lg px-4 py-2 bg-gray-900 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#b690f1] transition"
             />
           </div>
 
-          {/* Signin Button */}
           <button
             onClick={handleSignin}
             disabled={loading}
@@ -80,11 +82,10 @@ export default function Signin() {
             {loading ? "Signing in..." : "Sign In"}
           </button>
 
-          {/* Redirect to signup */}
           <p className="mt-6 text-center text-gray-400 text-sm">
             Don't have an account?{" "}
             <a
-              href="/signup"
+              href="/auth/signup"
               className="text-[#b690f1] hover:underline font-medium"
             >
               Sign up

@@ -1,26 +1,26 @@
-import React from 'react';
-import Link from 'next/link';
+"use client";
+
+import React from "react";
+import Link from "next/link";
+import { useAuth } from "@/app/context/AuthContext";
 
 function Navbar() {
-  const links = [
-    { name: 'home', href: '/' },
-    { name: 'currency', href: '/currency' },
-    { name: 'weight', href: '/weight' },
-    { name: 'age', href: '/age' },
-    { name: 'temperature', href: '/temperature' },
-    { name: 'distance', href: '/distance' },
-    { name: 'signup', href: '/auth/signup' },
-    { name: 'signin', href: '/auth/signin' }
-  ];
+  const { isLoggedIn, logout } = useAuth();
 
-  // Example: check if user is logged in via cookie or state
-  const isLoggedIn = false; // replace with actual auth check
+  const links = [
+    { name: "home", href: "/" },
+    { name: "currency", href: "/currency" },
+    { name: "weight", href: "/weight" },
+    { name: "age", href: "/age" },
+    { name: "temperature", href: "/temperature" },
+    { name: "distance", href: "/distance" },
+    
+  ];
 
   return (
     <nav className="bg-gradient-to-r from-indigo-950 via-purple-900 to-indigo-950 shadow-xl backdrop-blur-md">
       <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-        
-        {/* Left side: Signup / Logout */}
+        {/* Left side: Sign Up / Logout */}
         <div className="flex items-center gap-4">
           {!isLoggedIn && (
             <Link
@@ -32,11 +32,9 @@ function Navbar() {
           )}
           {isLoggedIn && (
             <button
-              className="px-4 py-2 bg-gradient-to-r from-[#f87171] to-[#ef4444] text-white rounded-lg font-medium hover:scale-105 transition-transform duration-300"
-              onClick={() => {
-                // handle logout logic here (clear cookie / redirect)
-                console.log("Logout clicked");
-              }}
+              onClick={logout}
+              className="mt-6 px-6 py-2 bg-gray-800 rounded-lg text-center text-lg font-medium text-[#b690f1] hover:bg-gray-700 hover:text-purple-300 transition duration-300 shadow-md animate-pulse"
+
             >
               Logout
             </button>

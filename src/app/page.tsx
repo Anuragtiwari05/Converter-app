@@ -1,12 +1,26 @@
-import React from "react";
+"use client";
+
+import React, { useEffect } from "react";
 import Navbar from "./component/navbar";
 import Footer from "./component/footer";
+import { useAuth } from "./context/AuthContext";
+import { useRouter } from "next/navigation";
 
+export default function Home() {
+  const { isLoggedIn } = useAuth();
+  const router = useRouter();
 
-export default function Home(){
-  return(
+  // Redirect to signin if not logged in
+  useEffect(() => {
+    if (!isLoggedIn) {
+      router.push("/auth/signin");
+    }
+  }, [isLoggedIn, router]);
 
-       <div className="flex flex-col min-h-screen bg-gradient-to-br from-[#1a1f3c] via-[#141824] to-[#0d0f17] text-white">
+  if (!isLoggedIn) return null; // Prevent flicker before redirect
+
+  return (
+    <div className="flex flex-col min-h-screen bg-gradient-to-br from-[#1a1f3c] via-[#141824] to-[#0d0f17] text-white">
       {/* Sticky Navbar */}
       <header className="sticky top-0 z-50 bg-black/20 backdrop-blur-lg border-b border-white/10">
         <Navbar />
@@ -47,10 +61,5 @@ export default function Home(){
         <Footer />
       </footer>
     </div>
-  
-
-
-
-
-  )
+  );
 }
