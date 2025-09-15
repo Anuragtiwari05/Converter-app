@@ -33,7 +33,7 @@ function Navbar() {
           {isLoggedIn && (
             <button
               onClick={logout}
-              className="mt-6 px-6 py-2 bg-gray-800 rounded-lg text-center text-lg font-medium text-[#b690f1] hover:bg-gray-700 hover:text-purple-300 transition duration-300 shadow-md animate-pulse"
+              className="px-4 py-2 rounded-lg font-semibold bg-gradient-to-r from-[#6a85f1] to-[#b690f1] shadow-lg hover:scale-105 transition-transform"
 
             >
               Logout

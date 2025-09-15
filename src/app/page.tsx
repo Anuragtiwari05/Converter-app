@@ -41,12 +41,14 @@ export default function Home() {
         </p>
 
         <div className="flex gap-6 justify-center">
-          <a
-            href="#"
+          {/* Updated Get Started button */}
+          <button
+            onClick={() => router.push("/conversions")}
             className="px-8 py-3 rounded-xl font-semibold bg-gradient-to-r from-[#6a85f1] to-[#b690f1] shadow-lg hover:shadow-[#6a85f1]/40 hover:scale-105 transition-transform duration-300"
           >
             Get Started
-          </a>
+          </button>
+
           <a
             href="#"
             className="px-8 py-3 rounded-xl font-semibold bg-gradient-to-r from-[#434343] to-[#000000] text-gray-200 shadow-lg hover:scale-105 transition-transform duration-300"
