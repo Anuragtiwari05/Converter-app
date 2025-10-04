@@ -1,36 +1,54 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Converter App
 
-## Getting Started
+A simple and intuitive **Converter App** that allows users to convert between different units including **age, temperature, weight, currency, and more**. Built with web technologies, this app provides a quick and easy way to perform multiple conversions in one place.
 
-First, run the development server:
+## Features
+
+- **Age Converter:** Calculate age in different units (years, months, days).  
+- **Temperature Converter:** Convert between Celsius, Fahrenheit, and Kelvin.  
+- **Weight Converter:** Convert between kilograms, grams, pounds, and ounces.  
+- **Currency Converter:** Convert between major currencies (updates with live rates if API is used).  
+- **User-friendly Interface:** Easy to use for quick conversions.  
+- **Responsive Design:** Works well on desktop and mobile devices.
+
+## Demo
+
+[Include link to live demo if hosted]  
+
+## Installation
+
+1. **Clone the repository:**
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+git clone https://github.com/Anuragtiwari05/Converter-app.git
+Navigate to the project directory:
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+bash
+Copy code
+cd Converter-app
+Open index.html in your browser or serve it using any live server.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Usage
+Open the app in a browser.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Select the type of conversion you want.
 
-## Learn More
+Enter the value you want to convert.
 
-To learn more about Next.js, take a look at the following resources:
+See the converted result instantly.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Technologies Used
+HTML
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+CSS
 
-## Deploy on Vercel
+JavaScript
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Contributing
+Contributions are welcome! Feel free to open issues or submit pull requests to enhance the app.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+License
+This project is open-source and available under the MIT License.
+
+Contact
+GitHub: Anurag Tiwari
