@@ -11,9 +11,7 @@ A simple and intuitive **Converter App** that allows users to convert between di
 - **User-friendly Interface:** Easy to use for quick conversions.  
 - **Responsive Design:** Works well on desktop and mobile devices.
 
-## Demo
-
-[Include link to live demo if hosted]  
+ 
 
 ## Installation
 
@@ -38,11 +36,10 @@ Enter the value you want to convert.
 See the converted result instantly.
 
 Technologies Used
-HTML
-
-CSS
-
-JavaScript
+Next js
+React
+tailwind
+typescript
 
 Contributing
 Contributions are welcome! Feel free to open issues or submit pull requests to enhance the app.
