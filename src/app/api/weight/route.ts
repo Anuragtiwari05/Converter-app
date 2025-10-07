@@ -5,9 +5,9 @@ export async function POST(req:NextRequest){
        const body = await req.json()
        const {from,to,weight} = body;
 
-       if(!from || !to || !weight){
-        return NextResponse.json({error:"missing parameter"}),{status:400}
-       }
+       if (!from || !to || !weight) {
+      return NextResponse.json({ error: "missing parameter" }, { status: 400 });
+    }
        
        const weightUnits : Record<string,number>={
         KG : 1,

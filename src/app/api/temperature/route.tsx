@@ -6,12 +6,9 @@ export async function POST(req:NextRequest){
         const body = await req.json();
         const {fromUnit,toUnit,temp} = body;
 
-        if(!fromUnit || !toUnit || !temp ){
-            return NextResponse.json(
-                {error:"missing parameter"},
-                {status:400}
-            )
-        }
+        if (!fromUnit || !toUnit || temp === undefined) {
+      return NextResponse.json({ error: "missing parameter" }, { status: 400 });
+    }
 
         if(isNaN(Number(temp))){
             return NextResponse.json(

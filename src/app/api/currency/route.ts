@@ -5,9 +5,9 @@ export async function POST(req:NextRequest){
        const body = await req.json()
        const {from,to,amount} = body;
 
-       if(!from || !to || !amount){
-        return NextResponse.json({error:"missing parameter"}),{status:400}
-       }
+       if (!from || !to || !amount) {
+      return NextResponse.json({ error: "missing parameter" }, { status: 400 });
+    }
        
        const rates : Record<string,number>={
         USD:1,
