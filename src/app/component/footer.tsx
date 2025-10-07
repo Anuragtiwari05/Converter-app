@@ -1,4 +1,5 @@
 import React from "react";
+import Link from "next/link";
 
 export default function Footer() {
   return (
@@ -12,20 +13,12 @@ export default function Footer() {
       </div>
 
       {/* Links */}
-      <div className="flex gap-6">
-        <a href="/" className="hover:text-white transition">
-          Home
-        </a>
-        <a href="/about" className="hover:text-white transition">
-          About
-        </a>
-        <a href="/contact" className="hover:text-white transition">
-          Contact
-        </a>
-        <a href="/privacy" className="hover:text-white transition">
-          Privacy
-        </a>
-      </div>
+     <div className="flex gap-6">
+  <Link href="/" className="hover:text-white transition">Home</Link>
+  <Link href="/about" className="hover:text-white transition">About</Link>
+  <Link href="/contact" className="hover:text-white transition">Contact</Link>
+  <Link href="/privacy" className="hover:text-white transition">Privacy</Link>
+</div>
 
       {/* Copyright */}
       <div className="text-sm text-center md:text-right">
