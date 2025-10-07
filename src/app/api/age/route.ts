@@ -5,9 +5,12 @@ export async function POST(req:NextRequest){
        const body = await req.json()
        const {born,current} = body;
 
-       if(!born || !current ){
-        return NextResponse.json({error:"missing parameter"}),{status:400}
-       }
+       if (!born || !current) {
+  return NextResponse.json(
+    { error: "missing parameter" },
+    { status: 400 }
+  );
+}
        
        const bornYear = parseInt(born)
        const currentYear = parseInt(current)
