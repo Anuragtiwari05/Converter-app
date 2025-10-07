@@ -2,22 +2,27 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import jwt from "jsonwebtoken";
 
-const JWT_SECRET = process.env.JWT_SECRET || "supersecret";
-
 export function middleware(req: NextRequest) {
   const token = req.cookies.get("token")?.value;
 
-  // allow auth pages without redirect
+  // ✅ Narrow JWT_SECRET inside function
+  const JWT_SECRET = process.env.JWT_SECRET;
+  if (!JWT_SECRET) {
+    throw new Error("JWT_SECRET is not defined in environment variables");
+  }
+
+  // Allow auth pages without redirect
   if (req.nextUrl.pathname.startsWith("/auth")) {
     return NextResponse.next();
   }
 
-  // if no token → redirect to signin
+  // If no token → redirect to signin
   if (!token) {
     return NextResponse.redirect(new URL("/auth/signin", req.url));
   }
 
   try {
+    // ✅ Now TypeScript knows JWT_SECRET is string
     jwt.verify(token, JWT_SECRET);
     return NextResponse.next();
   } catch (error) {
@@ -26,5 +31,5 @@ export function middleware(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/((?!_next|favicon.ico|api).*)"], // protect all routes except API & assets
+  matcher: ["/((?!_next|favicon.ico|api).*)"],
 };
