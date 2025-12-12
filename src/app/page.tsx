@@ -1,23 +1,12 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React from "react";
 import Navbar from "./component/navbar";
 import Footer from "./component/footer";
-import { useAuth } from "./context/AuthContext";
 import { useRouter } from "next/navigation";
 
 export default function Home() {
-  const { isLoggedIn } = useAuth();
   const router = useRouter();
-
-  // Redirect to signin if not logged in
-  useEffect(() => {
-    if (!isLoggedIn) {
-      router.push("/auth/signin");
-    }
-  }, [isLoggedIn, router]);
-
-  if (!isLoggedIn) return null; // Prevent flicker before redirect
 
   return (
     <div className="flex flex-col min-h-screen bg-gradient-to-br from-[#1a1f3c] via-[#141824] to-[#0d0f17] text-white">
@@ -41,7 +30,7 @@ export default function Home() {
         </p>
 
         <div className="flex gap-6 justify-center">
-          {/* Updated Get Started button */}
+          {/* Get Started button */}
           <button
             onClick={() => router.push("/conversions")}
             className="px-8 py-3 rounded-xl font-semibold bg-gradient-to-r from-[#6a85f1] to-[#b690f1] shadow-lg hover:shadow-[#6a85f1]/40 hover:scale-105 transition-transform duration-300"
